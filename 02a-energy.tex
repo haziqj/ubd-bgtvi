@@ -1,0 +1,345 @@
+% https://tex.stackexchange.com/questions/124269/energy-level-diagrams-with-tex
+\tikzset{
+    level/.style = {
+        ultra thick,
+    },
+    connect/.style = {
+        dashed,
+        red
+    },
+    notice/.style = {
+        draw,
+        rectangle callout,
+        callout relative pointer={#1}
+    },
+    label/.style = {
+        text width=2cm
+    }
+}
+
+% EM ALGORITHM SLIDES
+
+\begin{frame}
+  \centering
+  \hspace{-0.7cm}
+  \only<1|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {EM Algorithm} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (1.75,0) -- node[left] {$\cL(q;\theta^{\text{old}})$} (1.75,3.25);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {Variational Inference} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (1.75,0) -- node[left] {$\cL(q;\theta^{\text{old}})$} (1.75,3.25);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<2|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {EM (E-step)} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu,dashed] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick,opacity=0] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+      % E-step
+      \draw[level,colblu] (0,6.5) -- node[above] {$\color{black} \KL(\tilde q\Vert p) = 0$} (2.5,6.5);  % top      
+      \draw[->,very thick,colblu] (2,3.25) -- node[left] {} (2,6.5);  
+      \draw[<->,very thick] (1.25,0) -- node[left,yshift=-33] {$\cL(\tilde q;\theta^{\text{old}})$} (1.25,6.5);      
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {VI (E-step)} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu,dashed] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,5.25) -- node[left] {$\KL(\tilde q \Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+      % E-step
+      \draw[level,colblu] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+      \draw[->,very thick,colblu] (2,3.25) -- node[left] {} (2,5.25);  % increase in L  
+      \draw[<->,very thick] (1.25,0) -- node[left,yshift=-33] {$\cL(\tilde q;\theta^{\text{old}})$} (1.25,5.25);    
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<3>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} EM (M-step)} (5,8);  % new top
+      \draw[level,colblu,dashed] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % mid
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu] (0,7.25) -- node[above] {} node[below] {} (2.5,7.25);  % mid
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,7.25) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,7.25);         
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,6.5) -- node[left] {} (2,7.25);  
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} VI (M-step)} (5,8);  % new top
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % top
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu,dashed] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+
+      % Draw arrows
+      \draw[<->,very thick] (0.75,6.5) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);   
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,6.5);                  
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,5.25) -- node[left] {} (2,6.5);        
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  
+\end{frame}
+
+% VARIATIONAL INFERENCE SLIDES
+
+\begin{frame}
+  \centering
+  \hspace{-0.7cm}
+  \only<1|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {EM Algorithm} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (1.75,0) -- node[left] {$\cL(q;\theta^{\text{old}})$} (1.75,3.25);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {Variational Inference} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (1.75,0) -- node[left] {$\cL(q;\theta^{\text{old}})$} (1.75,3.25);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<2|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {EM (E-step)} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu,dashed] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick,opacity=0] (0.75,3.25) -- node[left] {$\KL(q\Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+      % E-step
+      \draw[level,colblu] (0,6.5) -- node[above] {$\color{black} \KL(\tilde q\Vert p) = 0$} (2.5,6.5);  % top      
+      \draw[->,very thick,colblu] (2,3.25) -- node[left] {} (2,6.5);  
+      \draw[<->,very thick] (1.25,0) -- node[left,yshift=-33] {$\cL(\tilde q;\theta^{\text{old}})$} (1.25,6.5);      
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {VI (E-step)} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu,dashed] (0,3.25) -- node[above] {} node[below] {} (2.5,3.25);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,5.25) -- node[left] {$\KL(\tilde q \Vert p)$} (0.75,6.5);
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^{\text{old}})$} (3.5,6.5);
+      
+      % E-step
+      \draw[level,colblu] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+      \draw[->,very thick,colblu] (2,3.25) -- node[left] {} (2,5.25);  % increase in L  
+      \draw[<->,very thick] (1.25,0) -- node[left,yshift=-33] {$\cL(\tilde q;\theta^{\text{old}})$} (1.25,5.25);    
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<3|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} EM (M-step)} (5,8);  % new top
+      \draw[level,colblu,dashed] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % mid
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu] (0,7.25) -- node[above] {} node[below] {} (2.5,7.25);  % mid
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,7.25) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,7.25);         
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,6.5) -- node[left] {} (2,7.25);  
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} VI (M-step)} (5,8);  % new top
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % top
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu,dashed] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+
+      % Draw arrows
+      \draw[<->,very thick] (0.75,6.5) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);   
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,6.5);                  
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,5.25) -- node[left] {} (2,6.5);        
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+      
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<4|handout:0>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} EM (M-step)} (5,8);  % new top
+      \draw[level,colblu,dashed] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % mid
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu] (0,7.25) -- node[above] {} node[below] {} (2.5,7.25);  % mid
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,7.25) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,7.25);         
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,6.5) -- node[left] {} (2,7.25);  
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {\color{black} VI (M-step)} (5,8);  % new top
+      \draw[level,colred] (0,7.25) -- node[above] {} (5,7.25);  % new top
+      \draw[level,colred,dashed] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,6) -- node[above] {} node[below] {} (2.5,6);  % top
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu,dashed] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+
+      % Draw arrows
+      \draw[<->,very thick] (0.75,6) -- node[left,yshift=6.5] {$\KL(\tilde q\Vert p)$} (0.75,7.25);   
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,6);                  
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,7.25);
+      \draw[->,very thick,colblu] (2,5.25) -- node[left] {} (2,6);        
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,7.25);  
+    
+    \end{tikzpicture}
+  \end{minipage}}
+  \only<5>{\begin{minipage}{.49\textwidth}
+    % EM Algorithm
+    \begin{tikzpicture}[scale=0.95,opacity=0.25]
+    
+      % Draw all levels
+      \draw[level,colred] (0,8) -- node[above] {\color{black} EM (M-step)} (5,8);  % new top
+      \draw[level,colblu,dashed] (0,6.5) -- node[above] {} node[below] {} (2.5,6.5);  % mid
+      \draw[level,colred,dashed] (2.5,6.5) -- node[above] {} node[below] {} (5,6.5);  % mid
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu] (0,7.25) -- node[above] {} node[below] {} (2.5,7.25);  % mid
+      
+      % Draw arrows
+      \draw[<->,very thick] (0.75,7.25) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,8);
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,7.25);         
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,8);
+      \draw[->,very thick,colblu] (2,6.5) -- node[left] {} (2,7.25);  
+      \draw[->,very thick,colred] (4.5,6.5) -- node[left] {} (4.5,8);  
+    
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.49\textwidth}
+    % Variational Inference
+    \begin{tikzpicture}[scale=0.95]
+    
+      % Draw all levels
+      \draw[draw=none] (0,8) -- node[above] {\color{black} VI (M-step)} (5,8);  % new top
+      \draw[level,colred] (0,6.5) -- node[above] {} node[below] {} (5,6.5);  % top
+      \draw[level,colblu] (0,5.8) -- node[above] {} node[below] {} (2.5,5.8);  % top
+      \draw[level] (0,0) -- node[above] {} (5,0);  % bottom
+      \draw[level,colblu,dashed] (0,5.25) -- node[above] {} (2.5,5.25);  % new KL level     
+
+      % Draw arrows
+      \draw[<->,very thick] (0.75,5.8) -- node[left] {$\KL(\tilde q\Vert p)$} (0.75,6.5);   
+      \draw[<->,very thick] (1.25,0) -- node[left] {$\cL(\tilde q;\theta^*)$} (1.25,5.8);                  
+      \draw[<->,very thick] (3.5,0) -- node[right] {$\log p(y;\theta^*)$} (3.5,6.5);
+      \draw[->,very thick,colblu] (2,5.25) -- node[left] {} (2,5.8);        
+
+    \end{tikzpicture}
+  \end{minipage}}
+\end{frame}

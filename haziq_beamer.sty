@@ -1,0 +1,569 @@
+% Beamer color theme BerlinFU - Copyright (C) 2009 Herbert Voss
+% Beamer outer theme smoothbars - Copyright (C) 2007 Till Tantau
+% Both works are distributed under the LaTeX Project Public License
+% This style file are modified versions of these works
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEAMER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifbeamer@sb@subsection
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@sb@subsection#1\endcsname}
+\ExecuteOptionsBeamer{subsection=false}  % show subsections or not in smoothbars outer theme
+\ProcessOptionsBeamer
+
+\mode<presentation>
+  \usetheme{Boadilla}
+
+  % Colour definitions
+  \definecolor{FUblue}{gray}{0.60}
+  \definecolor{FUgreen}{RGB}{153,204,0}
+  \definecolor{FUred}{RGB}{204,0,0}
+  \definecolor{FUorange}{RGB}{255,153,51}
+  \definecolor{FUgray}{gray}{0.6}
+  \definecolor{text-grey}{rgb}{0.45, 0.45, 0.45} % grey text on white background
+  \definecolor{bg-grey}{rgb}{0.66, 0.65, 0.60} % grey background (for white text)
+  \definecolor{fu-blue}{RGB}{0, 0, 0} % blue text
+  \definecolor{fu-green}{RGB}{153, 204, 0} % green text
+  \definecolor{fu-red}{RGB}{204, 0, 0} % red text (used by \alert)
+
+  % Various beamer colour settings
+  \setbeamercolor*{frametitle}{fg=FUgray,bg=white}
+  \setbeamercolor*{normal text}{fg=black,bg=white}
+  \setbeamercolor*{alerted text}{fg=FUred,bg=white}
+  \setbeamercolor*{footline}{fg=black,bg=white}
+  \setbeamercolor*{structure}{fg=FUred}
+  \setbeamercolor*{palette primary}{use=structure,fg=structure.fg,bg=}
+  \setbeamercolor*{palette secondary}{fg=FUblue,bg=}
+  \setbeamercolor*{separation line}{fg=FUblue}
+  \setbeamercolor*{example text}{fg=FUgreen,bg=}
+  \setbeamercolor*{block title}{use=structure,fg=structure.fg,bg=FUblue!20!bg}
+  \setbeamercolor*{block title alerted}{use=alerted text,fg=alerted text.fg,bg=alerted text.fg!20!bg}
+  \setbeamercolor*{block title example}{use=example text,fg=example text.fg,bg=example text.fg!20!bg}
+  \setbeamercolor*{block body}{parent=normal text,use=block title,bg=block title.bg!50!bg}
+  \setbeamercolor*{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!50!bg}
+  \setbeamercolor*{block body example}{parent=normal text,use=block title example,bg=block title example.bg!50!bg}
+  \setbeamercolor*{titlelike}{parent=structure}
+
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[default]
+  \setbeamertemplate{itemize items}[circle] 
+%  \setbeamertemplate{itemize subitem}[triangle] 
+  \setbeamertemplate{itemize subitem}{\scriptsize\raise1.25pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+  \setbeamertemplate{itemize subsubitem}[triangle] 
+  \setbeamertemplate{section in toc}[circle]
+  \setbeamertemplate{subsection in toc}[default]
+  \setbeamercolor{footline}{fg=black,bg=white}
+  %\setbeamercolor{section in head/foot}{bg=white}
+  %{\leavevmode\leftskip=1.5em${\color{BrickRed}\bullet}$\hskip0.5em\inserttocsubsection\par}
+
+  % Beamer outer theme
+  \setbeamercolor{frametitle}{fg=black!60}
+  \setbeamercolor{subsection in head/foot}{fg=fu-red}
+  \setbeamercolor{section in head/foot}{fg=black!60, bg=white}
+
+  \beamer@compresstrue
+  
+  \AtBeginDocument{
+    {
+      \usebeamerfont*{headline}
+      \colorlet{global.bg}{bg}
+      \usebeamercolor{subsection in head/foot}
+      \usebeamercolor{section in head/foot}
+      \usebeamercolor{frametitle}
+  
+      \ifbeamer@sb@subsection
+        \pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+           color(0ex)=(global.bg);%
+           color(1ex)=(subsection in head/foot.bg);%
+           color(3.25ex)=(subsection in head/foot.bg);%
+           color(4.25ex)=(section in head/foot.bg);%
+           color(9.75ex)=(section in head/foot.bg)%
+         }
+         \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+           color(0ex)=(frametitle.bg);%
+           color(1ex)=(frametitle.bg);%
+           color(2ex)=(subsection in head/foot.bg)
+         }
+      \else
+        \pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+           color(0ex)=(global.bg);%
+           color(1ex)=(section in head/foot.bg);%
+           color(7ex)=(section in head/foot.bg)%
+         }
+       \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+           color(0ex)=(frametitle.bg);%
+           color(1ex)=(frametitle.bg);%
+           color(2ex)=(section in head/foot.bg)
+         }
+      \fi  
+  
+      \pgfdeclareverticalshading{beamer@belowframetitle}{\the\paperwidth}{%
+        color(0ex)=(global.bg);%
+        color(1ex)=(frametitle.bg)
+      }
+    }
+  }
+
+                                % Head
+  \defbeamertemplate*{headline}{smoothbars theme}
+  {%
+    \pgfuseshading{beamer@barshade}%
+    \ifbeamer@sb@subsection%
+      \vskip-9.75ex%
+    \else%
+      \vskip-7ex%
+    \fi%
+    \begin{beamercolorbox}[ignorebg,ht=2.25ex,dp=3.75ex]{section in head/foot}
+      \insertnavigation{\paperwidth}
+    \end{beamercolorbox}%
+    \ifbeamer@sb@subsection%
+      \begin{beamercolorbox}[ignorebg,ht=2.125ex,dp=1.125ex,%
+        leftskip=.3cm,rightskip=.3cm plus1fil]{subsection in head/foot}
+        \usebeamerfont{subsection in head/foot}\insertsubsectionhead
+      \end{beamercolorbox}%
+    \fi%
+  }%
+
+  \defbeamertemplate*{frametitle}{smoothbars theme}
+  {%
+    \nointerlineskip%
+    \usebeamerfont{headline}%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1.5ex,dp=0ex,vmode]{empty}
+      \pgfuseshading{beamer@aboveframetitle}%
+    \end{beamercolorbox}%
+    \vskip-.5ex%
+    \nointerlineskip%
+    \begin{beamercolorbox}[wd=\paperwidth,leftskip=.3cm,rightskip=.3cm plus1fil,vmode]{frametitle}
+      \usebeamerfont*{frametitle}\insertframetitle%
+        \ifx\insertframesubtitle\@empty%
+          \strut\par%
+        \else
+          \par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+        \fi%%
+      \usebeamerfont{headline}%
+      \vskip.5ex  
+    \end{beamercolorbox}%
+    \nointerlineskip
+    \begin{beamercolorbox}[wd=\paperwidth,ht=.5ex,dp=0ex]{empty}
+      \pgfuseshading{beamer@belowframetitle}%
+    \end{beamercolorbox}%
+  }
+
+  % Customise footer
+  \setbeamertemplate{footline}
+  {
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  \usebeamerfont{author in head/foot}\insertshortauthor~-~\insertshortinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+  \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+  {\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+  }
+
+\mode
+<all>
+
+% No frame headers and no frame numbers. Used in TOC and transition slides
+\newcommand{\framenoheader}{\setbeamertemplate{headline}[default]}
+\newcommand{\framenonumber}{
+      \setbeamertemplate{footline}
+        {
+      \leavevmode%
+      \hbox{%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor~-~\insertshortinstitute
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+        {\color{white}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}} %#turning this line into a comment, erases the frame numbers
+      \end{beamercolorbox}}%
+      \vskip0pt%
+    }
+}
+
+% Fix for allowframebreaks noframenumbering
+\usepackage{etoolbox}
+\makeatletter
+\preto{\appendix}{%
+  \patchcmd{\beamer@continueautobreak}{\refstepcounter{framenumber}}{}{}{}}
+\makeatother
+
+% Title page
+\newcommand{\mytitle}{
+  \begin{frame}[plain]
+  \addtocounter{framenumber}{-1}
+  \titlepage
+  \end{frame}
+}
+
+% TOC slide
+\newcommand{\mytoc}{
+  {\framenoheader\framenonumber
+    \begin{frame}[noframenumbering]{Outline}
+    %\vspace{-3pt}
+    \tableofcontents
+    \end{frame}
+  }
+}
+
+% Transition slide
+\newcommand{\transition}{
+  {\framenoheader\framenonumber
+    \begin{frame}[noframenumbering]
+      \tableofcontents[currentsection, hideallsubsections]
+    \end{frame}
+  }
+}
+
+\newcommand{\transitionsubsec}{
+  {\framenoheader\framenonumber
+    \begin{frame}[noframenumbering]
+      \tableofcontents[currentsection]
+    \end{frame}
+  }
+}
+
+% References slide
+\newcommand{\refslide}{
+  {\framenoheader\framenonumber
+    \begin{frame}[t,allowframebreaks,noframenumbering]{References}
+    \printbibliography[heading=none]
+    \end{frame}
+  }
+}
+
+% End thank you slide
+\newcommand{\thankyou}{
+  {\framenonumber
+    \begin{frame}[noframenumbering]{End}
+    \begin{center}
+    \Huge Thank you!
+    \end{center}
+    \blfootnote{Slides and source code are made available at: {\color{fu-red!70}\url{http://socialstats.haziqj.ml}}}
+    \end{frame}
+  }
+}
+
+% Backup slides counter
+\newcommand{\beginbackup}{
+   \newcounter{framenumbervorappendix}
+   \setcounter{framenumbervorappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumbervorappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumbervorappendix}} 
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Typeset and appearance
+\usepackage[english]{babel}   % manages structure of paper better
+\usepackage[]{xcolor}  % options: usenames, dvipsnames, svgnames, table
+\usepackage{soul}  % for highlighting text
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}  % To get accents on letters
+\usepackage[T1]{fontenc}     % e.g. \"a
+\usepackage{nicefrac}   % To get nice typography for units
+\usepackage{units}      % and fractions
+\let\proglang=\textsf
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+\usepackage[absolute,overlay]{textpos}
+
+% Colour-blind safe pallete
+\definecolor{colblu}{RGB}{51,102,170}
+\definecolor{colcya}{RGB}{17,170,153}
+\definecolor{colgre}{RGB}{102,170,85}
+\definecolor{colgyl}{RGB}{204,204,85}
+\definecolor{colgry}{RGB}{119,119,119}
+\definecolor{colpur}{RGB}{153,34,136}
+\definecolor{colred}{RGB}{238,51,51}
+\definecolor{colora}{RGB}{238,119,34}
+\definecolor{colyel}{RGB}{255,238,51}
+
+% Coding
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}  % for indicator variables \mathsds{1}
+\usepackage{bm}  % for better bold script
+\usepackage[makeroom]{cancel}
+  \renewcommand{\CancelColor}{\color{gray}}
+\usepackage{mathtools}
+	
+% Bibliography
+\usepackage[style=authoryear, firstinits=true, maxcitenames=2, maxbibnames=99, backend=biber, natbib]{biblatex}
+\renewbibmacro{in:}{%  % remove the "In:"
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+% Figures
+\usepackage{float}  
+\usepackage{graphicx}
+%\usepackage{subfig} 
+\usepackage{subcaption}  % an alternative package for sub-figures (preferred)
+	\newcommand{\subfloat}[2][need a sub-caption]{\subcaptionbox{#1}{#2}}  % knitr
+\usepackage{rotfloat}	
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning,shapes.geometric,decorations.pathreplacing}
+\usepackage{forest}
+\usetikzlibrary{shapes.callouts}
+\usetikzlibrary{patterns,hobby}
+\usepackage{pgfplots}    % these are for squiggly lines
+\pgfplotsset{compat=1.6}  % https://tex.stackexchange.com/questions/160237/draw-somewhat-random-function/160274
+
+% Tables
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+%\usepackage{dcolumn}  % align columns on a decimal point
+\newcommand{\Top}{\rule{0pt}{2.6ex}}  % Top strut for tables
+\newcommand{\Bot}{\rule[-1.2ex]{0pt}{0pt}}  % Top strut for tables
+\usepackage{booktabs}
+
+% Miscellaneous
+\usepackage{lipsum} 
+\usepackage{ifthen}
+\usepackage{xparse}
+\usepackage{pifont}
+  \newcommand{\cmark}{\ding{51}}  % check mark
+  \newcommand{\xmark}{\ding{55}}  % x mark
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MATHS SYMBOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Vectors and matrices
+\newcommand{\bzero}{{\mathbf 0}}
+\newcommand{\bone}{{\mathbf 1}}
+\newcommand{\ba}{{\mathbf a}}
+\newcommand{\bb}{{\mathbf b}}
+\newcommand{\bc}{{\mathbf c}}
+\newcommand{\bd}{{\mathbf d}}
+\newcommand{\be}{{\mathbf e}}
+\newcommand{\bff}{{\mathbf f}}
+\newcommand{\bg}{{\mathbf g}}
+\newcommand{\bh}{{\mathbf h}}
+\newcommand{\bi}{{\mathbf i}}
+\newcommand{\bj}{{\mathbf j}}
+\newcommand{\bk}{{\mathbf k}}
+\newcommand{\bl}{{\mathbf l}}
+\newcommand{\bmm}{{\mathbf m}}
+\newcommand{\bn}{{\mathbf n}}
+\newcommand{\bo}{{\mathbf o}}
+\newcommand{\bp}{{\mathbf p}}
+\newcommand{\bq}{{\mathbf q}}
+\newcommand{\br}{{\mathbf r}}
+\newcommand{\bs}{{\mathbf s}}
+\newcommand{\bt}{{\mathbf t}}
+\newcommand{\bu}{{\mathbf u}}
+\newcommand{\bv}{{\mathbf v}}
+\newcommand{\bw}{{\mathbf w}}
+\newcommand{\bx}{{\mathbf x}}
+\newcommand{\by}{{\mathbf y}}
+\newcommand{\bz}{{\mathbf z}}
+\newcommand{\bA}{{\mathbf A}}
+\newcommand{\bB}{{\mathbf B}}
+\newcommand{\bC}{{\mathbf C}}
+\newcommand{\bD}{{\mathbf D}}
+\newcommand{\bE}{{\mathbf E}}
+\newcommand{\bF}{{\mathbf F}}
+\newcommand{\bG}{{\mathbf G}}
+\newcommand{\bH}{{\mathbf H}}
+\newcommand{\bI}{{\mathbf I}}
+\newcommand{\bJ}{{\mathbf J}}
+\newcommand{\bK}{{\mathbf K}}
+\newcommand{\bL}{{\mathbf L}}
+\newcommand{\bM}{{\mathbf M}}
+\newcommand{\bN}{{\mathbf N}}
+\newcommand{\bO}{{\mathbf O}}
+\newcommand{\bP}{{\mathbf P}}
+\newcommand{\bQ}{{\mathbf Q}}
+\newcommand{\bR}{{\mathbf R}}
+\newcommand{\bS}{{\mathbf S}}
+\newcommand{\bT}{{\mathbf T}}
+\newcommand{\bU}{{\mathbf U}}
+\newcommand{\bV}{{\mathbf V}}
+\newcommand{\bW}{{\mathbf W}}
+\newcommand{\bX}{{\mathbf X}}
+\newcommand{\bY}{{\mathbf Y}}
+\newcommand{\bZ}{{\mathbf Z}}
+
+\newcommand{\btW}{{\widetilde\bW}}
+\newcommand{\btU}{{\widetilde\bU}}
+
+% Greek bold letters
+\newcommand{\balpha}{{\bm\alpha}}
+\newcommand{\bbeta}{{\bm\beta}}
+\newcommand{\bgamma}{{\bm\gamma}}
+\newcommand{\bdelta}{{\bm\delta}}
+\newcommand{\bepsilon}{{\bm\epsilon}}
+\newcommand{\bvarepsilon}{{\bm\varepsilon}}
+\newcommand{\bzeta}{{\bm\zeta}}
+\newcommand{\bfeta}{{\bm\eta}}
+\newcommand{\boldeta}{{\bm\eta}}
+\newcommand{\btheta}{{\bm\theta}}
+\newcommand{\bvartheta}{{\bm\vartheta}}
+\newcommand{\biota}{{\bm\iota}}
+\newcommand{\bkappa}{{\bm\kappa}}
+\newcommand{\blambda}{{\bm\lambda}}
+\newcommand{\bmu}{{\bm\mu}}
+\newcommand{\bnu}{{\bm\nu}}
+\newcommand{\bxi}{{\bm\xi}}
+\newcommand{\bpi}{{\bm\pi}}
+\newcommand{\bvarpi}{{\bm\varpi}}
+\newcommand{\brho}{{\bm\rho}}
+\newcommand{\bvarrho}{{\bm\varrho}}
+\newcommand{\bsigma}{{\bm\sigma}}
+\newcommand{\bvarsigma}{{\bm\varsigma}}
+\newcommand{\btau}{{\bm\tau}}
+\newcommand{\bupsilon}{{\bm\upsilon}}
+\newcommand{\bphi}{{\bm\phi}}
+\newcommand{\bvarphi}{{\bm\varphi}}
+\newcommand{\bchi}{{\bm\chi}}
+\newcommand{\bpsi}{{\bm\psi}}
+\newcommand{\bomega}{{\bm\omega}}
+
+\newcommand{\bGamma}{{\bm\Gamma}}
+\newcommand{\bDelta}{{\bm\Delta}}
+\newcommand{\bTheta}{{\bm\Theta}}
+\newcommand{\bLambda}{{\bm\Lambda}}
+\newcommand{\bXi}{{\bm\Xi}}
+\newcommand{\bPi}{{\bm\Pi}}
+\newcommand{\bSigma}{{\bm\Sigma}}
+\newcommand{\bUpsilon}{{\bm\Upsilon}}
+\newcommand{\bPhi}{{\bm\Phi}}
+\newcommand{\bPsi}{{\bm\Psi}}
+\newcommand{\bOmega}{{\bm\Omega}}
+
+% Probability and Statistics
+\DeclareMathOperator{\Prob}{P}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\N}{N}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Bern}{Bern}
+\DeclareMathOperator{\Dir}{Dir}
+\DeclareMathOperator{\Wis}{Wis}
+\DeclareMathOperator{\logit}{logit}
+\DeclareMathOperator{\expit}{expit}
+\DeclareMathOperator{\Mult}{Mult}
+\DeclareMathOperator{\Pois}{Pois}
+\DeclareMathOperator{\Cauchy}{Cauchy}
+\DeclareMathOperator{\hCauchy}{half-Cauchy}
+\DeclareMathOperator{\LKJ}{LKJ}
+\DeclareMathOperator{\Unif}{Unif}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\ind}{\mathds{1}}
+\newcommand{\iid}{\,\overset{\text{iid}}{\sim}\,}
+\DeclareMathOperator*{\plim}{plim}
+
+% Blackboard bold
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bbC}{\mathbb{C}}
+\newcommand{\bbS}{\mathbb{S}}
+\newcommand{\bbH}{\mathbb{H}}
+
+% Math calligraphic fonts
+\newcommand{\cA}{{\mathcal A}}
+\newcommand{\cB}{{\mathcal B}}
+\newcommand{\cC}{{\mathcal C}}
+\newcommand{\cD}{{\mathcal D}}
+\newcommand{\cE}{{\mathcal E}}
+\newcommand{\cF}{{\mathcal F}}
+\newcommand{\cG}{{\mathcal G}}
+\newcommand{\cH}{{\mathcal H}}
+\newcommand{\cI}{{\mathcal I}}
+\newcommand{\cJ}{{\mathcal J}}
+\newcommand{\cK}{{\mathcal K}}
+\newcommand{\cL}{{\mathcal L}}
+\newcommand{\cM}{{\mathcal M}}
+\newcommand{\cN}{{\mathcal N}}
+\newcommand{\cO}{{\mathcal O}}
+\newcommand{\cP}{{\mathcal P}}
+\newcommand{\cQ}{{\mathcal Q}}
+\newcommand{\cR}{{\mathcal R}}
+\newcommand{\cS}{{\mathcal S}}
+\newcommand{\cT}{{\mathcal T}}
+\newcommand{\cU}{{\mathcal U}}
+\newcommand{\cV}{{\mathcal V}}
+\newcommand{\cW}{{\mathcal W}}
+\newcommand{\cX}{{\mathcal X}}
+\newcommand{\cY}{{\mathcal Y}}
+\newcommand{\cZ}{{\mathcal Z}}
+
+% Derivatives and integration
+\let\d\relax
+%\DeclareMathOperator{\d}{d\!\:\!}
+\newcommand{\d}{\, \text{d}}
+
+% Conveniences
+\newcommand{\const}{\text{const.}}
+\newcommand{\half}[1][1]{\frac{#1}{2}}  % \half for 1/2 or \half[n] for n/2, etc.
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+% Overbrace and underbrace
+\newcommand{\myoverbrace}[3][gray!70]{{\color{#1}\overbrace{\color{black}#2}^{#3}}}
+\newcommand{\myunderbrace}[3][gray!70]{{\color{#1}\underbrace{\color{black}#2}_{#3}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% JOURNAL NAMES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\HJ}{%
+  \ifcitation
+    {HJ}
+    {Jamil, H.}
+}
+
+\newcommand*{\JRSSBd}{%
+  \ifcitation
+    {J. R. Stat. Soc. Ser. B: Stat. Methodol (w. discussion),}
+    {Journal of the Royal Statistical Society. Series B: Statistical Methodology (with discussion),}
+}
+
+\newcommand*{\annas}{%
+  \ifcitation
+    {Ann. Appl. Stat,}
+    {Annals of Applied Statistics,}
+}
+
+\newcommand*{\jasa}{%
+  \ifcitation
+    {J. Am. Stat. Assoc,}
+    {Journal of the American Statistical Association,}
+}
