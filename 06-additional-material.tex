@@ -28,6 +28,8 @@
   \end{textblock*}
 \end{frame}
 
+\subsection{Comparison to EM}
+
 \subsection{The EM algorithm}
 \begin{frame}[label=emalg]{Comparison to the EM algorithm }
   \begin{itemize}
@@ -49,12 +51,40 @@
         \end{itemize}
         for $t=1,2,\dots$ until convergence.
   \end{itemize}
-    \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
+
+\end{frame}
+
+\begin{frame}{Comparison to the EM algorithm (cont.)}
+    \onslide<1->{
+  {\footnotesize\renewcommand{\arraystretch}{1.5}
+  \begin{table}[]
+  \centering
+  \begin{tabular}{p{5cm}p{5cm}}
+  \toprule
+  Variational inference/Bayes & (Variational) \hyperlink{emalg}{EM algorithm}\\ 
+  \midrule
+  \textbf{GOAL}: Posterior densities for $(\bw, \theta)$                                                          
+  & \textbf{GOAL}: ML/MAP estimates for $\theta$ \\
+  Variational approximation for latent variables and parameters $q(\bw,\theta)\approx p(\bw,\theta|\by)$ 
+  & Variational approximation for latent variables only $q(\bw)\approx p(\bw|\by)$ \\
+  Priors required on $\theta$                                                                            
+  & Priors not necessary for $\theta$ \\
+  Derivation can be tedious 
+  & Derivation less tedious \\
+  Inference on $\theta$ through (approximate) posterior density $q(\theta)$
+  & Asymptotic distribution of $\theta$ not well studied; standard errors for $\theta$ not easily obtained \\
+  \bottomrule
+  \end{tabular}
+  \end{table}
+  }}
+  
+  \begin{textblock*}{3cm}(.982\textwidth,1.04\textheight)%
     \hyperlink{compareemalg}{\beamerbutton{back}}      
   \end{textblock*}
 \end{frame}
 
 \subsection{Laplace's method}
+
 \begin{frame}[label=laplace]{Laplace's method}
   \blfootnote{\fullcite[§4.1, pp.777-778.]{Kass1995}}
   \vspace{-15pt}

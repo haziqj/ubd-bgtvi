@@ -59,7 +59,7 @@
   \vspace{-2.5mm}
   \begin{itemize}
     \item Introduce $\bz_i = (z_{i1},\dots,z_{iK})$, a $1$-of-$K$ binary vector, where each $z_{ik} \sim \Bern(\pi_k)$.
-    \item Assuming $\bz = \{\bz_1,\dots,\bz_n \}$ are observed along with $\bx = \{\bx_1,\dots,\bx_n \}$,
+    \item Assuming $\bz = \{\bz_1,\dots,\bz_n \}$, the conditional likelihood is
     \[
       p(\bx|\bz,\bmu,\bPsi) = \prod_{i=1}^n \prod_{k=1}^K \N_d(\bx_i|\bmu_k,\bPsi_k^{-1})^{z_{ik}}.
     \]

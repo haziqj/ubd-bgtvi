@@ -1,6 +1,8 @@
 \begin{frame}{Introduction}
   \begin{itemize}
-    \item Consider a statistical model where we have observations $\by = (y_1, \dots, y_n)$ and also some latent variables $\bz = (z_1, \dots, z_m)$.
+    \item Consider a statistical model 
+    parameterised by $\btheta = (\theta_1,\dots,\theta_p)^\top$ 
+    for which we have observations $\by = \{y_1, \dots, y_n\}$ and also some latent variables $\bz = \{z_1, \dots, z_m\}$.
     \pause  
     \item Want to evaluate the intractable integral
     \[
@@ -41,12 +43,12 @@
       \item Natural language processing and speech recognition {\color{gray!65}(topic modelling)}
       \item Social statistics {\color{gray!65}(probit models, latent class models, variable selection)}   
       \item Computational biology {\color{gray!65}(phylogenetic hidden Markov models, population genetics, gene expression analysis)}
-      \item Computational neuroscience {\color{gray!65}(autoregressive processes, hierarchical models, spatial models)}
+      \item Computational neuroscience {\color{gray!65}(autoregressive processes, hierarchical models, spatial models, artificial neural networks)}
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Recommended texts}
+\begin{frame}{Introductory texts}
   \begin{itemize}
     \item \fullcite{blei2017variational}
     \item \fullcite{Bishop2006}
@@ -85,8 +87,8 @@
     \[
       \KL(q \Vert p) = -\int \log \frac{p(\bz|\by)}{q(\bz)} q(\bz) \d\bz.
     \]
-%    \item Minimisation of $\KL(q\Vert p)$ is a problem of calculus of variations.
-    \item<5-> \textbf{ISSUE}: $\KL(q\Vert p)$ is intractable.
+    \item Use $\tilde q(\bz;\nu^*) := \argmin_q \KL(q \Vert p)$ as an approximation to $p(\bz|\by)$.\vspace{0.2em}
+%    \item<5-> \textbf{ISSUE}: $\KL(q\Vert p)$ is intractable.
   \end{itemize}
   
 %  \begin{textblock*}{3cm}(.982\textwidth,0.718\textheight)%
@@ -94,7 +96,7 @@
 %  \end{textblock*}
 \end{frame}
 
-\begin{frame}{The Evidence Lower Bound (ELBO)}  
+\begin{frame}[label=compareemalg]{The Evidence Lower Bound (ELBO)}  
 %  \vspace{-3pt}
   \begin{itemize}\setlength\itemsep{0.45em}
     \item Let $q(\bz)$ be some density function to approximate $p(\bz|\by)$. \pause Then the log-marginal density can be decomposed as follows:
@@ -110,47 +112,12 @@
     \end{align*}
     \item<5-> $\cL$ is referred to as the ``lower-bound'', and it serves as a surrogate function to the marginal.
     \item<5-> Maximising $\cL(q)$ is equivalent to minimising $\KL(q \Vert p)$.
-    \item<6-> Note that 
-    \begin{itemize}\setlength\itemsep{0.4em}
-      \item $\cL(q) = \E_{\bz\sim q}[\log p(\by,\bz)] + H[q(\bz)]$; and
-      \item<7-> Equality in the bound when $q(\bz) \equiv p(\bz|\by)$, and $\KL(q \Vert p)$ vanishes
-    \end{itemize}
+    \item<6-> N.b. Equality in the bound when $q(\bz) \equiv p(\bz|\by)$, and $\KL(q \Vert p)$ vanishes (c.f. EM algorithm).
+%    \begin{itemize}\setlength\itemsep{0.4em}
+%      \item $\cL(q) = \E_{\bz\sim q}[\log p(\by,\bz)] + H[q(\bz)]$; and
+%      \item<7-> Equality in the bound when $q(\bz) \equiv p(\bz|\by)$, and $\KL(q \Vert p)$ vanishes
+%    \end{itemize}
   \end{itemize}
-\end{frame}
-
-\subsection{Comparison to EM}
-
-\begin{frame}[label=compareemalg]{Comparison to the EM algorithm}
-  \begin{itemize}
-    \item In addition to latent variables $\bz$, typically there are unknown parameters $\theta$ to be estimated.
-    \begin{itemize}
-      \item Frequentist estimation: $\theta$ is fixed
-      \item Bayesian estimation: $\theta \sim p(\theta)$ is random
-    \end{itemize}
-  \end{itemize}
-  
-  \onslide<2->{
-  {\footnotesize\renewcommand{\arraystretch}{1.5}
-  \begin{table}[]
-  \centering
-  \begin{tabular}{p{5cm}p{5cm}}
-  \toprule
-  Variational inference/Bayes & (Variational) \hyperlink{emalg}{EM algorithm}\\ 
-  \midrule
-  \textbf{GOAL}: Posterior densities for $(\bw, \theta)$                                                          
-  & \textbf{GOAL}: ML/MAP estimates for $\theta$ \\
-  Variational approximation for latent variables and parameters $q(\bw,\theta)\approx p(\bw,\theta|\by)$ 
-  & Variational approximation for latent variables only $q(\bw)\approx p(\bw|\by)$ \\
-  Priors required on $\theta$                                                                            
-  & Priors not necessary for $\theta$ \\
-  Derivation can be tedious 
-  & Derivation less tedious \\
-  Inference on $\theta$ through (approximate) posterior density $q(\theta)$
-  & Asymptotic distribution of $\theta$ not well studied; standard errors for $\theta$ not easily obtained \\
-  \bottomrule
-  \end{tabular}
-  \end{table}
-  }}
 \end{frame}
 
 \subsection{Mean-field distributions}

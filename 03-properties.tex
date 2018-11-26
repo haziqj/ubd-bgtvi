@@ -1,22 +1,22 @@
-\subsection{Exponential families}
-
-\begin{frame}{Exponential families}
-  \begin{itemize}[<+->]
-    \item For the mean-field variational method, suppose that each complete conditional is in the exponential family:
-    \[
-      p(\bz^{(j)}|\bz_{-j},\by) = h(\bz^{(j)})\exp \big(\eta_j(\bz_{-j},\by)\cdot \bz^{(j)} - A(\eta_j) \big).
-    \]
-    \item Then, from \eqref{eq:meanfieldsoln}, 
-    \begin{align*}
-      \tilde q_j(\bz^{(j)}) &\propto \exp\big(\E_{-j}[\log p(\bz^{(j)}|\bz_{-j},\by)]\big) \\
-      &= \exp \Big(\log h(\bz^{(j)}) + \E [\eta_j(\bz_{-j},\by)] \cdot \bz^{(j)} - \E [ A(\eta_j) ] \Big) \\
-      &\propto h(\bz^{(j)})\exp \Big(\E [\eta_j(\bz_{-j},\by)] \cdot \bz^{(j)} \Big)
-    \end{align*}
-    is also in the same exponential family.
-    \item C.f. Gibbs conditional densities.
-    \item \textbf{ISSUE}: What if not in exponential family?  Importance sampling or Metropolis sampling.
-  \end{itemize}
-\end{frame}
+%\subsection{Exponential families}
+%
+%\begin{frame}{Exponential families}
+%  \begin{itemize}[<+->]
+%    \item For the mean-field variational method, suppose that each complete conditional is in the exponential family:
+%    \[
+%      p(\bz^{(j)}|\bz_{-j},\by) = h(\bz^{(j)})\exp \big(\eta_j(\bz_{-j},\by)\cdot \bz^{(j)} - A(\eta_j) \big).
+%    \]
+%    \item Then, from \eqref{eq:meanfieldsoln}, 
+%    \begin{align*}
+%      \tilde q_j(\bz^{(j)}) &\propto \exp\big(\E_{-j}[\log p(\bz^{(j)}|\bz_{-j},\by)]\big) \\
+%      &= \exp \Big(\log h(\bz^{(j)}) + \E [\eta_j(\bz_{-j},\by)] \cdot \bz^{(j)} - \E [ A(\eta_j) ] \Big) \\
+%      &\propto h(\bz^{(j)})\exp \Big(\E [\eta_j(\bz_{-j},\by)] \cdot \bz^{(j)} \Big)
+%    \end{align*}
+%    is also in the same exponential family.
+%    \item C.f. Gibbs conditional densities.
+%    \item \textbf{ISSUE}: What if not in exponential family?  Importance sampling or Metropolis sampling.
+%  \end{itemize}
+%\end{frame}
 
 \begin{frame}{Non-convexity of ELBO}
   \vspace{-4pt}
@@ -115,28 +115,28 @@
 %  \end{textblock*}
 \end{frame}
 
-\subsection{Advanced topics}
-
-\begin{frame}{Advanced topics}
-  \begin{itemize}
-    \item<1-> Local variational bounds 
-    \begin{itemize}
-      \item Not using the mean-field assumption.
-      \item Instead, find a bound for the marginalising integral $\cI$.
-      \item Used for Bayesian logistic regression as follows:
-      \[
-        I = \int \expit(x^\top\beta) p(\beta) \d\beta \geq \int f(x^\top\beta,\xi) p(\beta) \d\beta.
-      \]
-    \end{itemize}
-    \item<2-> Stochastic variational inference
-    \begin{itemize}
-%      \item VI on its own doesn't offer much computational advantages.
-      \item Use ideas from stochastic optimisation---gradient based improvement of ELBO from subsamples of the data.
-      \item Scales to massive data.
-    \end{itemize}
-    \item<3-> Black box variational inference
-    \begin{itemize}
-      \item Beyond exponential families and model-specific derivations.
-    \end{itemize}
-  \end{itemize}
-\end{frame}
+%\subsection{Advanced topics}
+%
+%\begin{frame}{Advanced topics}
+%  \begin{itemize}
+%    \item<1-> Local variational bounds 
+%    \begin{itemize}
+%      \item Not using the mean-field assumption.
+%      \item Instead, find a bound for the marginalising integral $\cI$.
+%      \item Used for Bayesian logistic regression as follows:
+%      \[
+%        I = \int \expit(x^\top\beta) p(\beta) \d\beta \geq \int f(x^\top\beta,\xi) p(\beta) \d\beta.
+%      \]
+%    \end{itemize}
+%    \item<2-> Stochastic variational inference
+%    \begin{itemize}
+%%      \item VI on its own doesn't offer much computational advantages.
+%      \item Use ideas from stochastic optimisation---gradient based improvement of ELBO from subsamples of the data.
+%      \item Scales to massive data.
+%    \end{itemize}
+%    \item<3-> Black box variational inference
+%    \begin{itemize}
+%      \item Beyond exponential families and model-specific derivations.
+%    \end{itemize}
+%  \end{itemize}
+%\end{frame}
